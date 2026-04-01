@@ -924,4 +924,13 @@ document.querySelectorAll('[data-carousel]').forEach(carousel => {
 
     prev.addEventListener('click', e => { e.preventDefault(); goTo(current - 1); });
     next.addEventListener('click', e => { e.preventDefault(); goTo(current + 1); });
-    dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.sli
+    dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.slide)));
+
+    carousel.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+    });
+});
+</script>
+</body>
+</html>
