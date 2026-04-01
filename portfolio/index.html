@@ -277,7 +277,6 @@
             transition: transform 0.4s ease;
             position: relative;
             z-index: 1;
-            pointer-events: none;
         }
         .carousel-slide {
             min-width: 100%;
@@ -287,7 +286,6 @@
             justify-content: center;
             position: relative;
             background: #0d1b2e;
-            pointer-events: none;
         }
         .carousel-slide img {
             width: 100%;
@@ -295,7 +293,6 @@
             object-fit: scale-down;
             object-position: center;
             display: block;
-            pointer-events: none;
         }
 
         .grad-1 { background: linear-gradient(135deg, #1a73e8 0%, #34a853 100%); }
@@ -336,20 +333,17 @@
             top: 0;
             height: 100%;
             width: 35%;
-            background: transparent;
+            background: rgba(0,0,0,0.15);
             color: white;
             border: none;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
             display: flex;
             align-items: center;
             z-index: 5;
-            opacity: 0;
-            transition: opacity 0.2s, background 0.2s;
+            transition: background 0.2s;
         }
-        .carousel:hover .carousel-btn,
-        .carousel-btn:focus-visible { opacity: 1; }
-        .carousel-btn:hover { background: rgba(0,0,0,0.18); }
+        .carousel-btn:hover { background: rgba(0,0,0,0.35); }
         .carousel-btn.prev { left: 0; justify-content: flex-start; padding-left: 8px; border-radius: 3px 0 0 3px; }
         .carousel-btn.next { right: 0; justify-content: flex-end; padding-right: 8px; border-radius: 0 3px 3px 0; }
 
@@ -628,7 +622,7 @@
         <div class="photo-wrap">
             <img src="images/Andrew.jpeg" alt="Andrew Margarit, Dental Educator and EdTech Developer at DACC–NMSU">
         </div>
-        <div class="id-name">Andrew Margarita</div>
+        <div class="id-name">Andrew Margarit</div>
         <div class="id-creds" aria-label="Credentials: Bachelor of Science in Dental Hygiene, Certified Dental Assistant">BSDH, CDA</div>
 
         <ul class="skills-list" aria-label="Skills and expertise">
