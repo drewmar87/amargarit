@@ -12,13 +12,13 @@
             --bg: #f0f4f8;
             --card: #ffffff;
             /* Blue variants:
-               --gold         = decorative/on-dark-bg (#5ba3e0, 6.8:1 on dark navy)
-               --gold-text    = text on light bg (#1d5fa0, 5.7:1 on white)
-               --gold-tag-bg  = filled tag bg (#1d5fa0, white text 5.7:1)           */
-            --gold: #5ba3e0;
-            --gold-text: #1d5fa0;
-            --gold-tag-bg: #1d5fa0;
-            --gold-soft: rgba(29, 95, 160, 0.08);
+               --blue         = decorative/on-dark-bg (#5ba3e0, 6.8:1 on dark navy)
+               --blue-text    = text on light bg (#1d5fa0, 5.7:1 on white)
+               --blue-tag-bg  = filled tag bg (#1d5fa0, white text 5.7:1)           */
+            --blue: #5ba3e0;
+            --blue-text: #1d5fa0;
+            --blue-tag-bg: #1d5fa0;
+            --blue-soft: rgba(29, 95, 160, 0.08);
             --text: #0d1b2e;
             --dim: #3d5166;       /* 5.8:1 on white ✓ */
             --muted: #5a7080;     /* 4.6:1 on white ✓ */
@@ -46,7 +46,7 @@
 
         /* Focus styles — clearly visible for keyboard users */
         :focus-visible {
-            outline: 3px solid var(--gold);
+            outline: 3px solid var(--blue);
             outline-offset: 2px;
             border-radius: 2px;
         }
@@ -59,7 +59,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        body {
+            display: flex;
+            justify-content: center;
+            background: var(--border);
+        }
         .page {
+            width: 100%;
+            max-width: 1400px;
             min-height: 100vh;
             display: grid;
             grid-template-columns: 290px 1fr 1fr 1fr;
@@ -124,7 +131,7 @@
         .id-creds {
             font-family: 'Source Code Pro', monospace;
             font-size: 14px;
-            color: var(--gold); /* on dark bg: 6.57:1 ✓ */
+            color: var(--blue); /* on dark bg: 6.57:1 ✓ */
             letter-spacing: 2px;
             margin-bottom: 20px;
             padding-bottom: 16px;
@@ -149,7 +156,7 @@
             line-height: 1.35;
         }
         .skill-item i {
-            color: var(--gold); /* on dark ✓ */
+            color: var(--blue); /* on dark ✓ */
             font-size: 11px;
             margin-top: 4px;
             flex-shrink: 0;
@@ -178,7 +185,7 @@
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 3px;
-            color: var(--gold); /* on dark ✓ */
+            color: var(--blue); /* on dark ✓ */
         }
 
         /* Contact */
@@ -211,21 +218,21 @@
             text-decoration: none;
             transition: color 0.2s;
         }
-        .contact-link:hover { color: var(--gold); }
+        .contact-link:hover { color: var(--blue); }
         .contact-link i {
             width: 28px; height: 28px;
             display: flex; align-items: center; justify-content: center;
             background: rgba(255,255,255,0.08);
             border-radius: 3px;
             font-size: 12px;
-            color: var(--gold); /* on dark ✓ */
+            color: var(--blue); /* on dark ✓ */
         }
         .contact-link.cv-link {
             padding: 6px 12px;
             background: rgba(184, 149, 46, 0.12);
             border: 1px solid rgba(184, 149, 46, 0.3);
             border-radius: 4px;
-            color: var(--gold); /* on dark ✓ */
+            color: var(--blue); /* on dark ✓ */
             font-weight: 600;
             margin-top: 4px;
             justify-content: center;
@@ -238,7 +245,7 @@
             font-weight: 700;
             letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--gold-text); /* #7a5500, 7.0:1 on white ✓ */
+            color: var(--blue-text); /* #7a5500, 7.0:1 on white ✓ */
             display: flex;
             align-items: center;
             gap: 6px;
@@ -247,7 +254,7 @@
             content: '';
             width: 10px;
             height: 1px;
-            background: var(--gold);
+            background: var(--blue);
             flex-shrink: 0;
         }
         .cell-label-inline { margin-bottom: 8px; }
@@ -393,7 +400,7 @@
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 3px;
-            color: var(--gold-text); /* 7.0:1 on white ✓ */
+            color: var(--blue-text); /* 7.0:1 on white ✓ */
             font-weight: 500;
             display: inline-flex;
             align-items: center;
@@ -409,19 +416,19 @@
             align-self: flex-end;
             font-size: 12px;
             font-weight: 600;
-            color: var(--gold-text); /* #7a5500, 7.0:1 ✓ */
+            color: var(--blue-text); /* #7a5500, 7.0:1 ✓ */
             text-decoration: none;
             transition: 0.2s;
         }
         .work-link i { font-size: 10px; }
-        .work-link:hover { color: var(--gold); gap: 8px; }
+        .work-link:hover { color: var(--blue); gap: 8px; }
 
         /* ── Experience ── */
         .exp-cell { display: flex; flex-direction: column; gap: 10px; }
         .exp-item { border-left: 3px solid var(--border); padding-left: 12px; }
-        .exp-item.current { border-left-color: var(--gold); }
+        .exp-item.current { border-left-color: var(--blue); }
         .exp-role { font-size: 16px; font-weight: 600; line-height: 1.2; }
-        .exp-org { font-size: 14px; color: var(--gold-text); font-weight: 500; } /* was --gold, fails on white */
+        .exp-org { font-size: 14px; color: var(--blue-text); font-weight: 500; } /* was --blue, fails on white */
         .exp-date { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--muted); }
         .exp-desc { font-size: 13px; color: var(--dim); line-height: 1.45; margin-top: 3px; }
 
@@ -435,7 +442,7 @@
             font-weight: 700;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: var(--gold-text); /* was --gold, fails on white */
+            color: var(--blue-text); /* was --blue, fails on white */
             margin-bottom: 4px;
         }
         .courses-list-inline {
@@ -447,9 +454,9 @@
         /* ── Education ── */
         .edu-cell { display: flex; flex-direction: column; gap: 10px; }
         .edu-item { border-left: 3px solid var(--border); padding-left: 12px; }
-        .edu-item.current { border-left-color: var(--gold); }
+        .edu-item.current { border-left-color: var(--blue); }
         .edu-degree { font-size: 16px; font-weight: 600; line-height: 1.2; }
-        .edu-focus { font-size: 13px; color: var(--gold-text); } /* was --gold */
+        .edu-focus { font-size: 13px; color: var(--blue-text); } /* was --blue */
         .edu-school { font-size: 13px; color: var(--dim); }
         .edu-year { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--muted); }
 
@@ -464,9 +471,9 @@
         .lic-icon {
             width: 30px; height: 30px;
             display: flex; align-items: center; justify-content: center;
-            background: var(--gold-soft);
+            background: var(--blue-soft);
             border-radius: 2px;
-            color: var(--gold-text); /* was --gold, fails on white */
+            color: var(--blue-text); /* was --blue, fails on white */
             font-size: 12px;
             flex-shrink: 0;
         }
@@ -491,14 +498,14 @@
             min-width: 290px;
         }
         .award-row { display: flex; align-items: center; gap: 12px; }
-        .award-row > i { font-size: 24px; color: var(--gold); flex-shrink: 0; } /* decorative, on warm bg ✓ */
+        .award-row > i { font-size: 24px; color: var(--blue); flex-shrink: 0; } /* decorative, on warm bg ✓ */
         .award-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
         .award-detail { font-size: 13px; color: var(--dim); }
         .award-tag {
             font-family: 'Source Code Pro', monospace;
             font-size: 12px; /* was 10px */
             padding: 2px 8px;
-            background: var(--gold-tag-bg); /* #7a5500 — white text = 4.7:1 ✓ */
+            background: var(--blue-tag-bg); /* #7a5500 — white text = 4.7:1 ✓ */
             color: white;
             border-radius: 2px;
             letter-spacing: 1px;
@@ -539,11 +546,11 @@
             text-decoration: none;
             color: var(--text);
         }
-        .cert-chip i { color: var(--gold-text); font-size: 12px; }
+        .cert-chip i { color: var(--blue-text); font-size: 12px; }
         .cert-chip:hover,
         .cert-chip:focus-visible {
-            border-color: var(--gold);
-            background: var(--gold-soft);
+            border-color: var(--blue);
+            background: var(--blue-soft);
         }
         /* Badge popup — shown on hover AND on focus for keyboard users */
         .cert-chip .badge-popup {
