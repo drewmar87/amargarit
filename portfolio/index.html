@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Andrew Margarit | Dental Educator & EdTech Developer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230d1b2e' width='100' height='100' rx='12'/><text x='50' y='68' font-family='serif' font-size='55' font-weight='700' fill='%235ba3e0' text-anchor='middle'>AM</text></svg>">
+    <style>
+        :root {
+            --bg: #f0f4f8;
+            --card: #ffffff;
+            /* Blue variants:
+               --gold         = decorative/on-dark-bg (#5ba3e0, 6.8:1 on dark navy)
+               --gold-text    = text on light bg (#1d5fa0, 5.7:1 on white)
+               --gold-tag-bg  = filled tag bg (#1d5fa0, white text 5.7:1)           */
+            --gold: #5ba3e0;
+            --gold-text: #1d5fa0;
+            --gold-tag-bg: #1d5fa0;
+            --gold-soft: rgba(29, 95, 160, 0.08);
+            --text: #0d1b2e;
+            --dim: #3d5166;       /* 5.8:1 on white ✓ */
+            --muted: #5a7080;     /* 4.6:1 on white ✓ */
+            --border: #d4dde6;
+        }
+
+        /* ── Skip Navigation ── */
+        .skip-nav {
+            position: absolute;
+            top: -100%;
+            left: 0;
+            padding: 10px 20px;
+            background: var(--text);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 9999;
+            text-decoration: none;
+            border-radius: 0 0 4px 0;
+            transition: top 0.2s;
+        }
+        .skip-nav:focus { top: 0; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Focus styles — clearly visible for keyboard users */
+        :focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+
+        html, body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            /* Removed overflow:hidden — users who zoom must be able to scroll */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 290px 1fr 1fr 1fr;
+            grid-template-rows: auto auto 1.1fr 1fr auto auto;
+            gap: 1px;
+            background: var(--border);
+        }
+        /* Removed overflow:hidden from .cell — content must not be clipped from AT */
+        .cell { background: var(--card); padding: 16px 18px; }
+
+        /* ── Top Bar ── */
+        .topbar {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 9px 28px;
+            background: #0d1b2e;
+            color: white;
+        }
+        .topbar-brand {
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+        .topbar-sub {
+            font-size: 12px;
+            /* Raised from 0.5 → 0.65 opacity so effective contrast passes 4.5:1 */
+            color: rgba(255,255,255,0.65);
+            letter-spacing: 1px;
+        }
+
+        /* ── Left Column ── */
+        .identity {
+            grid-row: 2 / 6;
+            display: flex;
+            flex-direction: column;
+            padding: 18px;
+            background: #0d1b2e;
+            color: white;
+        }
+        .photo-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 0.85;
+            overflow: hidden;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+        .photo-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+        .id-name {
+            font-family: 'Lora', serif;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 2px;
+        }
+        .id-creds {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 14px;
+            color: var(--gold); /* on dark bg: 6.57:1 ✓ */
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Skills List */
+        .skills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+            list-style: none;
+        }
+        .skill-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            /* Raised from 0.8 → 0.9 opacity on dark (was borderline) */
+            color: rgba(255,255,255,0.9);
+            line-height: 1.35;
+        }
+        .skill-item i {
+            color: var(--gold); /* on dark ✓ */
+            font-size: 11px;
+            margin-top: 4px;
+            flex-shrink: 0;
+            width: 14px;
+            text-align: center;
+        }
+        .skill-item strong { color: white; font-weight: 600; }
+        .skill-sub {
+            font-size: 12px;
+            /* Raised from 0.4 → 0.6 opacity so contrast ≥ 4.5:1 on dark */
+            color: rgba(255,255,255,0.6);
+            padding-left: 24px;
+            margin-top: -4px;
+        }
+        .skill-code {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding-left: 24px;
+            margin-top: -2px;
+        }
+        .skill-code span {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            padding: 2px 8px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 3px;
+            color: var(--gold); /* on dark ✓ */
+        }
+
+        /* Contact */
+        .left-contact {
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .left-contact h2 {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: white;
+        }
+        .left-contact .contact-sub {
+            font-size: 13px;
+            /* Raised from 0.45 → 0.6 */
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .contact-links { display: flex; flex-direction: column; gap: 8px; }
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-link:hover { color: var(--gold); }
+        .contact-link i {
+            width: 28px; height: 28px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+            font-size: 12px;
+            color: var(--gold); /* on dark ✓ */
+        }
+        .contact-link.cv-link {
+            padding: 6px 12px;
+            background: rgba(184, 149, 46, 0.12);
+            border: 1px solid rgba(184, 149, 46, 0.3);
+            border-radius: 4px;
+            color: var(--gold); /* on dark ✓ */
+            font-weight: 600;
+            margin-top: 4px;
+            justify-content: center;
+        }
+        .contact-link.cv-link:hover { background: rgba(184, 149, 46, 0.22); }
+
+        /* ── Cell Label ── */
+        .cell-label {
+            font-size: 12px; /* was 11px — raised for readability */
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-text); /* #7a5500, 7.0:1 on white ✓ */
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .cell-label::before {
+            content: '';
+            width: 10px;
+            height: 1px;
+            background: var(--gold);
+            flex-shrink: 0;
+        }
+        .cell-label-inline { margin-bottom: 8px; }
+
+        /* ── Work Header ── */
+        .work-header {
+            grid-column: 2 / -1;
+            display: flex;
+            align-items: center;
+            padding: 10px 18px;
+            background: var(--card);
+        }
+
+        /* ── Work Cards ── */
+        .work-cell { display: flex; flex-direction: column; }
+
+        /* Carousel */
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: 90px;
+            border-radius: 3px;
+            margin-bottom: 4px;
+            overflow: hidden;
+        }
+        .carousel-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.4s ease;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.12) 1px, transparent 1px);
+            background-size: 12px 12px;
+        }
+        .carousel-slide i {
+            font-size: 28px;
+            color: rgba(255,255,255,0.85);
+            z-index: 1;
+        }
+        /* Removed 9px slide-label — decorative only, not needed for AT */
+
+        .grad-1 { background: linear-gradient(135deg, #1a73e8 0%, #34a853 100%); }
+        .grad-1b { background: linear-gradient(135deg, #34a853 0%, #1a9e8a 100%); }
+        .grad-1c { background: linear-gradient(135deg, #1a9e8a 0%, #1a73e8 100%); }
+        .grad-2 { background: linear-gradient(135deg, #e8701a 0%, #e8c81a 100%); }
+        .grad-2b { background: linear-gradient(135deg, #e8c81a 0%, #e87a3a 100%); }
+        .grad-2c { background: linear-gradient(135deg, #d45d1a 0%, #e8701a 100%); }
+        .grad-3 { background: linear-gradient(135deg, #6a1ae8 0%, #1a73e8 100%); }
+        .grad-3b { background: linear-gradient(135deg, #1a73e8 0%, #8a2ae8 100%); }
+        .grad-3c { background: linear-gradient(135deg, #4a1ab8 0%, #6a1ae8 100%); }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            z-index: 2;
+        }
+        .carousel-dot {
+            width: 8px; height: 8px; /* slightly larger hit target */
+            border-radius: 50%;
+            background: rgba(255,255,255,0.35);
+            border: 1px solid rgba(255,255,255,0.6);
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.2s;
+        }
+        .carousel-dot.active,
+        .carousel-dot:focus-visible {
+            background: rgba(255,255,255,0.95);
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 35%;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.2s, background 0.2s;
+        }
+        /* Show carousel controls on hover OR when keyboard-focused */
+        .carousel:hover .carousel-btn,
+        .carousel-btn:focus-visible { opacity: 1; }
+        .carousel-btn:hover { background: rgba(0,0,0,0.18); }
+        .carousel-btn.prev { left: 0; justify-content: flex-start; padding-left: 8px; border-radius: 3px 0 0 3px; }
+        .carousel-btn.next { right: 0; justify-content: flex-end; padding-right: 8px; border-radius: 0 3px 3px 0; }
+
+        .work-cell h3 {
+            font-family: 'Lora', serif;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 4px;
+        }
+        .work-type {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--muted); /* #767676, 4.55:1 on white ✓ */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .work-desc {
+            font-size: 12px;
+            color: var(--dim); /* #555, 7.3:1 on white ✓ */
+            line-height: 1.55;
+            flex: 1;
+        }
+        .work-desc strong { color: var(--text); }
+
+        /* Tool chips inside work cards */
+        .work-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: 6px;
+        }
+        .work-tool {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            padding: 2px 8px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            color: var(--gold-text); /* 7.0:1 on white ✓ */
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .work-tool i { font-size: 10px; }
+
+        .work-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            align-self: flex-end;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold-text); /* #7a5500, 7.0:1 ✓ */
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .work-link i { font-size: 10px; }
+        .work-link:hover { color: var(--gold); gap: 8px; }
+
+        /* ── Experience ── */
+        .exp-cell { display: flex; flex-direction: column; gap: 10px; }
+        .exp-item { border-left: 3px solid var(--border); padding-left: 12px; }
+        .exp-item.current { border-left-color: var(--gold); }
+        .exp-role { font-size: 16px; font-weight: 600; line-height: 1.2; }
+        .exp-org { font-size: 14px; color: var(--gold-text); font-weight: 500; } /* was --gold, fails on white */
+        .exp-date { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--muted); }
+        .exp-desc { font-size: 13px; color: var(--dim); line-height: 1.45; margin-top: 3px; }
+
+        .courses-compact {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border);
+        }
+        .courses-label {
+            font-size: 12px; /* was 10px */
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold-text); /* was --gold, fails on white */
+            margin-bottom: 4px;
+        }
+        .courses-list-inline {
+            font-size: 12px;
+            color: var(--dim);
+            line-height: 1.5;
+        }
+
+        /* ── Education ── */
+        .edu-cell { display: flex; flex-direction: column; gap: 10px; }
+        .edu-item { border-left: 3px solid var(--border); padding-left: 12px; }
+        .edu-item.current { border-left-color: var(--gold); }
+        .edu-degree { font-size: 16px; font-weight: 600; line-height: 1.2; }
+        .edu-focus { font-size: 13px; color: var(--gold-text); } /* was --gold */
+        .edu-school { font-size: 13px; color: var(--dim); }
+        .edu-year { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--muted); }
+
+        /* ── Licenses ── */
+        .lic-cell { display: flex; flex-direction: column; gap: 7px; }
+        .lic-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .lic-row:last-child { border-bottom: none; }
+        .lic-icon {
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--gold-soft);
+            border-radius: 2px;
+            color: var(--gold-text); /* was --gold, fails on white */
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .lic-name { font-size: 14px; font-weight: 600; line-height: 1.2; }
+        .lic-issuer { font-size: 12px; color: var(--muted); }
+
+        /* ── Bottom Strip ── */
+        .bottom-strip {
+            grid-column: 2 / -1;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            background: var(--card);
+            gap: 1px;
+        }
+        .awards-panel {
+            padding: 14px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #eef4fb 0%, #e4eef8 100%);
+            min-width: 290px;
+        }
+        .award-row { display: flex; align-items: center; gap: 12px; }
+        .award-row > i { font-size: 24px; color: var(--gold); flex-shrink: 0; } /* decorative, on warm bg ✓ */
+        .award-name { font-size: 15px; font-weight: 700; line-height: 1.2; }
+        .award-detail { font-size: 13px; color: var(--dim); }
+        .award-tag {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px; /* was 10px */
+            padding: 2px 8px;
+            background: var(--gold-tag-bg); /* #7a5500 — white text = 4.7:1 ✓ */
+            color: white;
+            border-radius: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        /* Certs Panel */
+        .certs-panel {
+            padding: 14px 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: visible;
+        }
+        .certs-panel .cell-label { margin-bottom: 6px; }
+        .certs-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            align-content: start;
+            overflow: visible;
+        }
+        .cert-chip {
+            position: relative;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        .cert-chip i { color: var(--gold-text); font-size: 12px; }
+        .cert-chip:hover,
+        .cert-chip:focus-visible {
+            border-color: var(--gold);
+            background: var(--gold-soft);
+        }
+        /* Badge popup — shown on hover AND on focus for keyboard users */
+        .cert-chip .badge-popup {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px 14px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 200px;
+            white-space: normal;
+            word-break: break-word;
+        }
+        .cert-chip .badge-popup::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: white;
+        }
+        .cert-chip:hover .badge-popup,
+        .cert-chip:focus-visible .badge-popup {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+            pointer-events: auto;
+        }
+        .badge-popup img { width: 85px; height: 85px; object-fit: contain; margin-bottom: 8px; }
+        .badge-popup-name { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; margin-bottom: 2px; }
+        .badge-popup-date { font-family: 'Source Code Pro', monospace; font-size: 12px; color: var(--muted); }
+
+        /* ── Footer ── */
+        .bottombar {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 5px 28px;
+            background: var(--card);
+            font-size: 12px; /* was 11px */
+            color: var(--muted);
+        }
+
+        /* ── Mobile ── */
+        @media (max-width: 1100px) {
+            .page {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .identity { grid-row: auto; }
+            .work-header { grid-column: 1; }
+            .bottom-strip { grid-column: 1; grid-template-columns: 1fr; }
+            .awards-panel { min-width: auto; }
+            .photo-wrap { max-width: 250px; }
+            /* On mobile, popups overlap badly; hide and rely on the link itself */
+            .cert-chip .badge-popup { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Skip navigation — first focusable element on page -->
+<a href="#main-content" class="skip-nav">Skip to main content</a>
+
+<div class="page" role="document">
+
+    <!-- Top Bar -->
+    <header class="topbar" role="banner">
+        <div class="topbar-brand">ANDREW MARGARIT</div>
+        <div class="topbar-sub" aria-label="Roles and affiliations">Dental Educator · Instructional Designer · EdTech Developer &nbsp;|&nbsp; DACC — NMSU</div>
+    </header>
+
+    <!-- Left Column / Identity -->
+    <aside class="cell identity" aria-label="About Andrew Margarit">
+        <div class="photo-wrap">
+            <img src="images/Andrew.jpeg" alt="Andrew Margarit, Dental Educator and EdTech Developer at DACC–NMSU">
+        </div>
+        <div class="id-name">Andrew Margarit</div>
+        <div class="id-creds" aria-label="Credentials: Bachelor of Science in Dental Hygiene, Certified Dental Assistant">BSDH, CDA</div>
+
+        <ul class="skills-list" aria-label="Skills and expertise">
+            <li class="skill-item"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i><strong>9+ Years Teaching Experience</strong></li>
+            <li class="skill-sub">Dental Hygiene — Clinic &amp; Didactic</li>
+            <li class="skill-sub">Dental Assisting — Clinic &amp; Didactic</li>
+            <li class="skill-item"><i class="fas fa-landmark" aria-hidden="true"></i><strong>Creator of NM's First Alternative Pathway to DA Licensure</strong></li>
+            <li class="skill-item"><i class="fas fa-graduation-cap" aria-hidden="true"></i><strong>MA in Educational Learning Technologies</strong></li>
+            <li class="skill-sub">NMSU — Expected May 2026</li>
+            <li class="skill-item"><i class="fas fa-gamepad" aria-hidden="true"></i><strong>Gamification &amp; Game-Based Learning</strong></li>
+            <li class="skill-item"><i class="fas fa-code" aria-hidden="true"></i><strong>Web &amp; Mobile Development</strong></li>
+            <li class="skill-code" aria-label="Languages: HTML, CSS, JavaScript, Swift">
+                <span>HTML</span><span>CSS</span><span>JS</span><span>Swift</span>
+            </li>
+            <li class="skill-item"><i class="fas fa-robot" aria-hidden="true"></i><strong>Advanced AI Literacy</strong></li>
+            <li class="skill-item"><i class="fas fa-pen-ruler" aria-hidden="true"></i><strong>Articulate 360</strong></li>
+            <li class="skill-item"><i class="fas fa-graduation-cap" aria-hidden="true"></i><strong>Canvas LMS</strong></li>
+        </ul>
+
+        <div class="left-contact">
+            <h2>Let's Connect</h2>
+            <p class="contact-sub">Collaboration, consulting, or edtech in dental education</p>
+            <nav class="contact-links" aria-label="Contact and social links">
+                <a href="mailto:amargarit@dacc.nmsu.edu" class="contact-link">
+                    <i class="fas fa-envelope" aria-hidden="true"></i>amargarit@dacc.nmsu.edu
+                </a>
+                <a href="https://www.linkedin.com/in/andrewmargarit" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in new tab)">
+                    <i class="fab fa-linkedin" aria-hidden="true"></i>LinkedIn
+                </a>
+                <a href="https://docs.google.com/YOUR-CV-LINK-HERE" class="contact-link cv-link" target="_blank" rel="noopener noreferrer" aria-label="View full curriculum vitae (opens in new tab)">
+                    <i class="fas fa-file-lines" aria-hidden="true"></i>View Full CV
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Featured Work Header -->
+    <div class="work-header" role="presentation">
+        <h2 class="cell-label">Featured Work</h2>
+    </div>
+
+    <!-- Main content anchor -->
+    <div id="main-content" tabindex="-1" style="position:absolute; visibility:hidden; height:0;"></div>
+
+    <!-- Work Card 1: Tooth Sleuth -->
+    <article class="cell work-cell" aria-label="Featured project: Tooth Sleuth">
+        <div
+            class="carousel"
+            data-carousel
+            role="region"
+            aria-label="Tooth Sleuth project screenshots"
+            aria-roledescription="carousel"
+        >
+            <div class="carousel-track" aria-live="polite" aria-atomic="true">
+                <div class="carousel-slide grad-1" role="img" aria-label="Tooth Sleuth – game view"><i class="fas fa-tooth" aria-hidden="true"></i></div>
+                <div class="carousel-slide grad-1b" role="img" aria-label="Tooth Sleuth – mobile view"><i class="fas fa-mobile-screen" aria-hidden="true"></i></div>
+                <div class="carousel-slide grad-1c" role="img" aria-label="Tooth Sleuth – leaderboard view"><i class="fas fa-ranking-star" aria-hidden="true"></i></div>
+            </div>
+            <div class="carousel-dots" role="tablist" aria-label="Slide controls">
+                <button class="carousel-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1 of 3"></button>
+                <button class="carousel-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2 of 3"></button>
+                <button class="carousel-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3 of 3"></button>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="carousel-btn next" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+        </div>
+        <a href="#" class="work-link" target="_blank" rel="noopener noreferrer" aria-label="View Tooth Sleuth project (opens in new tab)">
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
+        </a>
+        <h3>Tooth Sleuth</h3>
+        <div class="work-tools" aria-label="Project type">
+            <span class="work-tool"><i class="fab fa-apple" aria-hidden="true"></i> iOS App</span>
+            <span class="work-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas Webapp</span>
+            <span class="work-tool"><i class="fas fa-gamepad" aria-hidden="true"></i> Game</span>
+        </div>
+        <p class="work-desc">
+            <strong>Problem:</strong> Students struggle to memorize adult and primary teeth across numbering systems.<br>
+            <strong>Solution:</strong> Competitive game with practice, timed &amp; survival modes — native iOS and Canvas LMS.<br>
+            <strong>Impact:</strong> Exploring how competitive gaming affects dental anatomy retention.
+        </p>
+    </article>
+
+    <!-- Work Card 2: Radiograph Roundup -->
+    <article class="cell work-cell" aria-label="Featured project: Radiograph Roundup">
+        <div
+            class="carousel"
+            data-carousel
+            role="region"
+            aria-label="Radiograph Roundup project screenshots"
+            aria-roledescription="carousel"
+        >
+            <div class="carousel-track" aria-live="polite" aria-atomic="true">
+                <div class="carousel-slide grad-2" role="img" aria-label="Radiograph Roundup – x-ray view"><i class="fas fa-x-ray" aria-hidden="true"></i></div>
+                <div class="carousel-slide grad-2b" role="img" aria-label="Radiograph Roundup – drag interface"><i class="fas fa-hand-pointer" aria-hidden="true"></i></div>
+                <div class="carousel-slide grad-2c" role="img" aria-label="Radiograph Roundup – validation feedback"><i class="fas fa-check-circle" aria-hidden="true"></i></div>
+            </div>
+            <div class="carousel-dots" role="tablist" aria-label="Slide controls">
+                <button class="carousel-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1 of 3"></button>
+                <button class="carousel-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2 of 3"></button>
+                <button class="carousel-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3 of 3"></button>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="carousel-btn next" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+        </div>
+        <a href="#" class="work-link" target="_blank" rel="noopener noreferrer" aria-label="View Radiograph Roundup project (opens in new tab)">
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
+        </a>
+        <h3>Radiograph Roundup</h3>
+        <div class="work-tools" aria-label="Project type">
+            <span class="work-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas Webapp</span>
+            <span class="work-tool"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Interactive</span>
+        </div>
+        <p class="work-desc">
+            <strong>Problem:</strong> Traditional mounting requires physical PSPs with no immediate feedback.<br>
+            <strong>Solution:</strong> Digital drag-and-drop tool with instant validation and unlimited practice.<br>
+            <strong>Impact:</strong> Students practice anytime without materials or faculty supervision.
+        </p>
+    </article>
+
+    <!-- Work Card 3: Radiation Health & Safety — now highlights Canvas + Articulate 360 -->
+    <article class="cell work-cell" aria-label="Featured project: Radiation Health and Safety">
+        <div
+            class="carousel"
+            data-carousel
+            role="region"
+            aria-label="Radiation Health and Safety course screenshots"
+            aria-roledescription="carousel"
+        >
+            <div class="carousel-track" aria-live="polite" aria-atomic="true">
+                <div class="carousel-slide grad-3" role="img" aria-label="Radiation Health and Safety – course overview"><i class="fas fa-radiation" aria-hidden="true"></i></div>
+                <div class="carousel-slide grad-3b" role="img" aria-label="Radiation Health and Safety – certificate view"><i class="fas fa-certificate" aria-hidden="true"></i></div>
+                <div class="carousel-slide grad-3c" role="img" aria-label="Radiation Health and Safety – online module"><i class="fas fa-laptop-medical" aria-hidden="true"></i></div>
+            </div>
+            <div class="carousel-dots" role="tablist" aria-label="Slide controls">
+                <button class="carousel-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1 of 3"></button>
+                <button class="carousel-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2 of 3"></button>
+                <button class="carousel-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3 of 3"></button>
+            </div>
+            <button class="carousel-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="carousel-btn next" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+        </div>
+        <a href="#" class="work-link" target="_blank" rel="noopener noreferrer" aria-label="View Radiation Health and Safety course (opens in new tab)">
+            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
+        </a>
+        <h3>Radiation Health &amp; Safety</h3>
+        <div class="work-tools" aria-label="Project type and tools">
+            <span class="work-tool"><i class="fas fa-pen-ruler" aria-hidden="true"></i> Articulate 360</span>
+            <span class="work-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas LMS</span>
+            <span class="work-tool"><i class="fas fa-certificate" aria-hidden="true"></i> QM Certified</span>
+            <span class="work-tool"><i class="fas fa-award" aria-hidden="true"></i> CE Provider</span>
+        </div>
+        <p class="work-desc">
+            <strong>Problem:</strong> NM dental assistants needed flexible paths to meet radiation safety licensure requirements.<br>
+            <strong>Solution:</strong> QM-certified course designed in <strong>Articulate 360</strong> and delivered via <strong>Canvas LMS</strong>, awarding CE credits toward state licensure.<br>
+            <strong>Impact:</strong> Became the first alternative pathway to DA licensure in New Mexico.
+        </p>
+    </article>
+
+    <!-- Experience -->
+    <section class="cell exp-cell" aria-label="Work experience">
+        <h2 class="cell-label cell-label-inline">Experience</h2>
+        <div class="exp-item current">
+            <div class="exp-role">Dental Assisting Coordinator</div>
+            <div class="exp-org">DACC — NMSU</div>
+            <div class="exp-date">2023 — Present</div>
+            <p class="exp-desc">Oversee practicums, licensing, radiation safety. Teach didactic &amp; clinical courses. DASA advisor.</p>
+        </div>
+        <div class="exp-item">
+            <div class="exp-role">Adjunct DH Clinical Instructor</div>
+            <div class="exp-org">DACC — NMSU</div>
+            <div class="exp-date">2016 — 2023</div>
+            <p class="exp-desc">Clinical instruction. Taught Radiology &amp; Dental Materials.</p>
+        </div>
+        <div class="exp-item">
+            <div class="exp-role">Clinical Dental Hygienist</div>
+            <div class="exp-org">Northrise Dental</div>
+            <div class="exp-date">2015 — 2023</div>
+            <p class="exp-desc">Preventive care, periodontal therapy, patient education.</p>
+        </div>
+        <div class="courses-compact">
+            <div class="courses-label" aria-label="Courses taught">Courses Taught</div>
+            <div class="courses-list-inline">
+                Clinical DH · Dental Radiography · Dental Materials · Dental Assisting · General &amp; Oral Pathology · Office Management
+            </div>
+        </div>
+    </section>
+
+    <!-- Education -->
+    <section class="cell edu-cell" aria-label="Education">
+        <h2 class="cell-label cell-label-inline">Education</h2>
+        <div class="edu-item current">
+            <div class="edu-degree">MA in Education</div>
+            <div class="edu-focus">Educational Learning Technologies</div>
+            <div class="edu-school">New Mexico State University</div>
+            <div class="edu-year">Expected May 2026</div>
+        </div>
+        <div class="edu-item current">
+            <div class="edu-degree">Master's Certificate</div>
+            <div class="edu-focus">Online Teaching &amp; Learning</div>
+            <div class="edu-school">New Mexico State University</div>
+            <div class="edu-year">Expected May 2026</div>
+        </div>
+        <div class="edu-item">
+            <div class="edu-degree">BS Dental Hygiene</div>
+            <div class="edu-school">University of New Mexico · 2020</div>
+        </div>
+        <div class="edu-item">
+            <div class="edu-degree">AAS Dental Hygiene</div>
+            <div class="edu-school">DACC — NMSU · 2015</div>
+        </div>
+    </section>
+
+    <!-- Licenses -->
+    <section class="cell lic-cell" aria-label="Licenses and certifications">
+        <h2 class="cell-label cell-label-inline">Licenses &amp; Certs</h2>
+        <div class="lic-row">
+            <div class="lic-icon" aria-hidden="true"><i class="fas fa-tooth"></i></div>
+            <div><div class="lic-name">Registered Dental Hygienist</div><div class="lic-issuer">NM Board of Dental Health Care</div></div>
+        </div>
+        <div class="lic-row">
+            <div class="lic-icon" aria-hidden="true"><i class="fas fa-id-badge"></i></div>
+            <div><div class="lic-name">Certified Dental Assistant</div><div class="lic-issuer">NM Board of Dental Health Care</div></div>
+        </div>
+        <div class="lic-row">
+            <div class="lic-icon" aria-hidden="true"><i class="fas fa-syringe"></i></div>
+            <div><div class="lic-name">Local Anesthesia</div><div class="lic-issuer">NM Board of Dental Health Care</div></div>
+        </div>
+        <div class="lic-row">
+            <div class="lic-icon" aria-hidden="true"><i class="fas fa-crosshairs"></i></div>
+            <div><div class="lic-name">Laser Dentistry Proficiency</div><div class="lic-issuer">Academy of Laser Dentistry</div></div>
+        </div>
+        <div class="lic-row">
+            <div class="lic-icon" aria-hidden="true"><i class="fas fa-heart-pulse"></i></div>
+            <div><div class="lic-name">BLS Instructor &amp; Provider</div><div class="lic-issuer">American Heart Association</div></div>
+        </div>
+    </section>
+
+    <!-- Bottom Strip -->
+    <div class="bottom-strip" role="complementary">
+        <section class="awards-panel" aria-label="Awards and recognition">
+            <div class="award-row">
+                <i class="fas fa-trophy" aria-hidden="true"></i>
+                <div>
+                    <div class="award-name">Academic Innovation Award</div>
+                    <div class="award-detail">DACC, 2025</div>
+                    <span class="award-tag">Inaugural Recipient</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="certs-panel" aria-label="Digital badges and certifications">
+            <h2 class="cell-label" style="margin-bottom:6px;">Digital Badges &amp; Certifications</h2>
+            <div class="certs-list">
+                <a href="https://appleteacher.apple.com" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="Apple Teacher certification (opens in new tab)">
+                    <i class="fab fa-apple" aria-hidden="true"></i> Apple Teacher
+                    <div class="badge-popup" aria-hidden="true"><img src="images/AppleTeacher_black.svg" alt=""><div class="badge-popup-name">Apple Teacher</div><div class="badge-popup-date">Feb 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/TqxZnuyXRq-6GbGtww_Cpg" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="Certified Online Instructor badge (opens in new tab)">
+                    <i class="fas fa-laptop" aria-hidden="true"></i> Certified Online Instructor
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/TqxZnuyXRq-6GbGtww_Cpg/image" alt=""><div class="badge-popup-name">Certified Online Instructor</div><div class="badge-popup-date">Aug 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/uXVMXUA8SvONphZ651pmAQ" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="AI Responsible Use badge (opens in new tab)">
+                    <i class="fas fa-shield-halved" aria-hidden="true"></i> AI Responsible Use
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/uXVMXUA8SvONphZ651pmAQ/image" alt=""><div class="badge-popup-name">Empowering Students to Use AI Responsibly</div><div class="badge-popup-date">Mar 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/VcI_vHXkQ62xcVSFGqGZsw" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="Social Media in Education badge (opens in new tab)">
+                    <i class="fas fa-share-nodes" aria-hidden="true"></i> Social Media in Education
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/VcI_vHXkQ62xcVSFGqGZsw/image" alt=""><div class="badge-popup-name">Social Media Management in Education</div><div class="badge-popup-date">Jul 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/e4e-2tEyR4yw3SIh0vBJlA" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="AI-Centered Learning badge (opens in new tab)">
+                    <i class="fas fa-brain" aria-hidden="true"></i> AI-Centered Learning
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/e4e-2tEyR4yw3SIh0vBJlA/image" alt=""><div class="badge-popup-name">Teaching with AI-Centered Learning</div><div class="badge-popup-date">Mar 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/x2bbt3uKSfa83GBOFyvIjw" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="AI Course Resources badge (opens in new tab)">
+                    <i class="fas fa-wand-sparkles" aria-hidden="true"></i> AI Course Resources
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/x2bbt3uKSfa83GBOFyvIjw/image" alt=""><div class="badge-popup-name">Leveraging AI to Develop Course Resources</div><div class="badge-popup-date">Mar 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/DdQE5z1uTc6t5xYUT4tdcw" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="Effective AI Prompts badge (opens in new tab)">
+                    <i class="fas fa-pen-nib" aria-hidden="true"></i> Effective AI Prompts
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/DdQE5z1uTc6t5xYUT4tdcw/image" alt=""><div class="badge-popup-name">Writing Effective AI Prompts</div><div class="badge-popup-date">Mar 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/vqXbaUUOTcGAJK9EEf-5zw" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="World of VR badge (opens in new tab)">
+                    <i class="fas fa-vr-cardboard" aria-hidden="true"></i> World of VR
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/vqXbaUUOTcGAJK9EEf-5zw/image" alt=""><div class="badge-popup-name">Enter the World of VR</div><div class="badge-popup-date">Oct 2024</div></div>
+                </a>
+                <a href="https://badgr.com/public/assertions/PucmeBB8QcKdaGLjxvnRSw" class="cert-chip" target="_blank" rel="noopener noreferrer" aria-label="Short Term Course Designer badge (opens in new tab)">
+                    <i class="fas fa-calendar-check" aria-hidden="true"></i> Short Term Designer
+                    <div class="badge-popup" aria-hidden="true"><img src="https://api.badgr.io/public/assertions/PucmeBB8QcKdaGLjxvnRSw/image" alt=""><div class="badge-popup-name">Certified Shortened Academic Term Course Designer</div><div class="badge-popup-date">Apr 2025</div></div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bottombar" role="contentinfo">
+        <span>&copy; 2026 Andrew Margarit, BSDH, CDA. All rights reserved.</span>
+    </footer>
+
+</div>
+
+<script>
+// ── Carousel with keyboard support ──
+document.querySelectorAll('[data-carousel]').forEach(carousel => {
+    const track = carousel.querySelector('.carousel-track');
+    const dots = carousel.querySelectorAll('.carousel-dot');
+    const prev = carousel.querySelector('.carousel-btn.prev');
+    const next = carousel.querySelector('.carousel-btn.next');
+    let current = 0;
+    const total = dots.length;
+
+    function goTo(i) {
+        current = (i + total) % total;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, idx) => {
+            d.classList.toggle('active', idx === current);
+            d.setAttribute('aria-selected', idx === current ? 'true' : 'false');
+        });
+    }
+
+    prev.addEventListener('click', e => { e.preventDefault(); goTo(current - 1); });
+    next.addEventListener('click', e => { e.preventDefault(); goTo(current + 1); });
+    dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.slide)));
+
+    // Arrow key navigation when carousel or its children are focused
+    carousel.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+    });
+});
+</script>
+</body>
+</html>
