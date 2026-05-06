@@ -47,29 +47,25 @@
 
         html, body {
             font-family: 'Source Sans 3', sans-serif;
-            background: var(--bg);
+            background: var(--border);
             color: var(--text);
-            height: 100vh;
-            overflow: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
         body {
             display: flex;
             justify-content: center;
-            background: var(--border);
         }
         .page {
             width: 100%;
             max-width: 1400px;
-            height: 100vh;
             display: grid;
             grid-template-columns: 290px 1fr 1fr 1fr;
-            grid-template-rows: auto auto 1.1fr 1fr auto auto;
+            grid-template-rows: auto auto auto auto auto auto;
             gap: 1px;
             background: var(--border);
         }
-        .cell { background: var(--card); padding: 16px 18px; overflow: hidden; }
+        .cell { background: var(--card); padding: 16px 18px; }
 
         /* ── Top Bar ── */
         .topbar {
@@ -80,6 +76,9 @@
             padding: 9px 28px;
             background: #0d1b2e;
             color: white;
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
         .topbar-brand {
             font-family: 'Lora', serif;
@@ -107,6 +106,7 @@
             aspect-ratio: 1 / 0.85;
             border-radius: 3px;
             margin-bottom: 10px;
+            overflow: hidden;
         }
         .photo-wrap img {
             width: 100%; height: 100%;
@@ -178,7 +178,7 @@
             color: var(--blue);
         }
 
-        /* Contact */
+        /* Contact Form */
         .left-contact {
             margin-top: auto;
             padding-top: 16px;
@@ -197,36 +197,77 @@
             margin-bottom: 12px;
             line-height: 1.4;
         }
-        .contact-links { display: flex; flex-direction: column; gap: 8px; }
-        .contact-link {
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .contact-form .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .contact-form label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--blue);
+        }
+        .contact-form input,
+        .contact-form textarea {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            padding: 8px 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 3px;
+            color: white;
+            width: 100%;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+            background: rgba(255,255,255,0.1);
+        }
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 70px;
+            font-family: 'Source Sans 3', sans-serif;
+        }
+        .contact-form button {
+            margin-top: 4px;
+            padding: 9px 14px;
+            background: var(--blue);
+            color: #0d1b2e;
+            border: none;
+            border-radius: 3px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            color: rgba(255,255,255,0.85);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .contact-link:hover { color: var(--blue); }
-        .contact-link i {
-            width: 28px; height: 28px;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.08);
-            border-radius: 3px;
-            font-size: 12px;
-            color: var(--blue);
-        }
-        .contact-link.cv-link {
-            padding: 6px 12px;
-            background: rgba(184, 149, 46, 0.12);
-            border: 1px solid rgba(184, 149, 46, 0.3);
-            border-radius: 4px;
-            color: var(--blue);
-            font-weight: 600;
-            margin-top: 4px;
             justify-content: center;
+            gap: 7px;
         }
-        .contact-link.cv-link:hover { background: rgba(184, 149, 46, 0.22); }
+        .contact-form button:hover { background: #7ab8e8; }
+        .contact-form button i { font-size: 11px; }
+        .form-status {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            min-height: 14px;
+            margin-top: 2px;
+        }
 
         /* ── Cell Label ── */
         .cell-label {
@@ -253,131 +294,103 @@
             grid-column: 2 / -1;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding: 10px 18px;
+            background: var(--card);
+            gap: 16px;
+        }
+        .work-header-counter {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+        .work-header-counter strong {
+            color: var(--blue-text);
+            font-weight: 700;
+        }
+
+        /* ── Featured Work Section (Single Carousel) ── */
+        .work-section {
+            grid-column: 2 / -1;
+            grid-row: 3;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
             background: var(--card);
         }
 
-        /* ── Work Cards ── */
-        .work-cell { display: flex; flex-direction: column; }
-
-        /* Carousel — flex-grows to fill available space */
-        .carousel {
+        .project-carousel {
             position: relative;
             width: 100%;
-            flex: 1;
-            min-height: 80px;
-            border-radius: 3px;
-            margin-bottom: 4px;
             overflow: hidden;
         }
-        .carousel-track {
+        .project-track {
             display: flex;
-            height: 100%;
-            transition: transform 0.4s ease;
-            position: relative;
-            z-index: 1;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .carousel-slide {
+        .project-slide {
             min-width: 100%;
-            height: 100%;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            background: #0d1b2e;
+            flex-direction: column;
+            padding: 22px 60px 24px;
         }
-        .carousel-slide img {
+
+        /* 3-image row */
+        .project-images {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .project-image-cell {
+            aspect-ratio: 5 / 6;
+            background: #0d1b2e;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+        }
+        .project-image-cell img {
             width: 100%;
             height: 100%;
-            object-fit: scale-down;
+            object-fit: cover;
             object-position: center;
             display: block;
         }
 
-        .grad-1 { background: linear-gradient(135deg, #1a73e8 0%, #34a853 100%); }
-        .grad-1b { background: linear-gradient(135deg, #34a853 0%, #1a9e8a 100%); }
-        .grad-1c { background: linear-gradient(135deg, #1a9e8a 0%, #1a73e8 100%); }
-        .grad-2 { background: linear-gradient(135deg, #e8701a 0%, #e8c81a 100%); }
-        .grad-2b { background: linear-gradient(135deg, #e8c81a 0%, #e87a3a 100%); }
-        .grad-2c { background: linear-gradient(135deg, #d45d1a 0%, #e8701a 100%); }
-        .grad-3 { background: linear-gradient(135deg, #6a1ae8 0%, #1a73e8 100%); }
-        .grad-3b { background: linear-gradient(135deg, #1a73e8 0%, #8a2ae8 100%); }
-        .grad-3c { background: linear-gradient(135deg, #4a1ab8 0%, #6a1ae8 100%); }
-
-        .carousel-dots {
-            position: absolute;
-            bottom: 6px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 5px;
-            z-index: 5;
+        /* Slide content layout */
+        .project-meta {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 24px;
+            align-items: start;
         }
-        .carousel-dot {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.35);
-            border: 1px solid rgba(255,255,255,0.6);
-            cursor: pointer;
-            padding: 0;
-            transition: background 0.2s;
-        }
-        .carousel-dot.active,
-        .carousel-dot:focus-visible {
-            background: rgba(255,255,255,0.95);
-        }
-
-        .carousel-btn {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 35%;
-            background: rgba(0,0,0,0.15);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            z-index: 5;
-            transition: background 0.2s;
-        }
-        .carousel-btn:hover { background: rgba(0,0,0,0.35); }
-        .carousel-btn.prev { left: 0; justify-content: flex-start; padding-left: 8px; border-radius: 3px 0 0 3px; }
-        .carousel-btn.next { right: 0; justify-content: flex-end; padding-right: 8px; border-radius: 0 3px 3px 0; }
-
-        .work-cell h3 {
+        .project-meta-left h3 {
             font-family: 'Lora', serif;
-            font-size: 20px;
+            font-size: 26px;
             font-weight: 700;
-            line-height: 1.15;
-            margin-bottom: 4px;
+            line-height: 1.1;
+            margin-bottom: 6px;
         }
-        .work-type {
+        .project-type {
             font-family: 'Source Code Pro', monospace;
             font-size: 11px;
             color: var(--muted);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
         }
-        .work-desc {
-            font-size: 12px;
-            color: var(--dim);
-            line-height: 1.55;
-        }
-        .work-desc strong { color: var(--text); }
-
-        .work-tools {
+        .project-tools {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
-            margin-bottom: 6px;
+            gap: 5px;
+            margin-bottom: 12px;
         }
-        .work-tool {
+        .project-tool {
             font-family: 'Source Code Pro', monospace;
             font-size: 11px;
-            padding: 2px 8px;
+            padding: 3px 9px;
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: 3px;
@@ -385,24 +398,154 @@
             font-weight: 500;
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
-        .work-tool i { font-size: 10px; }
+        .project-tool i { font-size: 10px; }
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            background: var(--blue-tag-bg);
+            color: white;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.2s;
+            letter-spacing: 0.5px;
+        }
+        .project-link i { font-size: 10px; }
+        .project-link:hover { background: var(--blue); transform: translateY(-1px); }
 
-        .work-link {
+        .project-desc {
+            font-size: 13.5px;
+            color: var(--dim);
+            line-height: 1.6;
+        }
+        .project-desc strong { color: var(--text); }
+        .project-desc p { margin-bottom: 6px; }
+        .project-desc p:last-child { margin-bottom: 0; }
+
+        /* Under-construction / In-progress slide state */
+        .project-slide.in-progress {
+            background: linear-gradient(135deg, rgba(217, 79, 79, 0.06) 0%, rgba(217, 79, 79, 0.02) 100%);
+        }
+        .project-slide.in-progress .project-image-cell {
+            border-color: rgba(217, 79, 79, 0.25);
+            box-shadow: 0 0 0 1px rgba(217, 79, 79, 0.08);
+        }
+        .construction-tag {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 6px;
-            align-self: flex-end;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--blue-text);
-            text-decoration: none;
-            transition: 0.2s;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 10px;
+            padding: 4px 10px;
+            background: #fdecec;
+            color: #b83a3a;
+            border: 1px solid #f0c5c5;
+            border-radius: 2px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 700;
         }
-        .work-link i { font-size: 10px; }
-        .work-link:hover { color: var(--blue); gap: 8px; }
+        .construction-tag i { font-size: 11px; }
+
+        /* Placeholder slides */
+        .project-slide.placeholder .project-image-cell {
+            background: linear-gradient(135deg, #1a2840 0%, #0d1b2e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-color: rgba(91, 163, 224, 0.15);
+        }
+        .project-slide.placeholder .project-image-cell::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(91,163,224,0.12), transparent 70%);
+        }
+        .placeholder-icon {
+            color: rgba(91, 163, 224, 0.35);
+            font-size: 38px;
+            position: relative;
+            z-index: 1;
+        }
+        .project-slide.placeholder h3 {
+            color: var(--muted);
+            font-style: italic;
+        }
+        .placeholder-tag {
+            display: inline-block;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 10px;
+            padding: 3px 8px;
+            background: var(--blue-soft);
+            color: var(--blue-text);
+            border-radius: 2px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* Carousel controls */
+        .project-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--blue-tag-bg);
+            border: 3px solid var(--card);
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            box-shadow: 0 6px 20px rgba(13, 27, 46, 0.35), 0 0 0 1px rgba(13, 27, 46, 0.1);
+            transition: all 0.2s ease;
+        }
+        .project-btn:hover {
+            background: var(--blue);
+            color: #0d1b2e;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 24px rgba(13, 27, 46, 0.45), 0 0 0 1px rgba(13, 27, 46, 0.15);
+        }
+        .project-btn:active {
+            transform: translateY(-50%) scale(0.96);
+        }
+        .project-btn.prev { left: 14px; }
+        .project-btn.next { right: 14px; }
+
+        .project-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px 16px;
+            flex-wrap: wrap;
+        }
+        .project-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--border);
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .project-dot:hover { background: var(--muted); }
+        .project-dot.active {
+            background: var(--blue-tag-bg);
+            transform: scale(1.3);
+        }
 
         /* ── Experience ── */
         .exp-cell { display: flex; flex-direction: column; gap: 10px; }
@@ -586,21 +729,133 @@
             color: var(--muted);
         }
 
+        /* ── Accessibility Annotations ── */
+        .a11y-section {
+            grid-column: 1 / -1;
+            background: var(--card);
+            padding: 12px 28px 14px;
+            border-top: 1px solid var(--border);
+        }
+        .a11y-details summary {
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--blue-text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            padding: 4px 0;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .a11y-details summary::-webkit-details-marker { display: none; }
+        .a11y-details summary i.a11y-icon { color: var(--blue); font-size: 16px; }
+        .a11y-details summary .a11y-meta {
+            margin-left: auto;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: none;
+        }
+        .a11y-details summary::after {
+            content: '+';
+            margin-left: 10px;
+            font-size: 16px;
+            color: var(--muted);
+            font-weight: 400;
+            line-height: 1;
+        }
+        .a11y-details[open] summary::after { content: '−'; }
+
+        .a11y-content {
+            padding: 14px 0 4px;
+        }
+        .a11y-intro {
+            font-size: 13px;
+            color: var(--dim);
+            line-height: 1.55;
+            margin-bottom: 14px;
+        }
+        .a11y-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+        .a11y-item h4 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--blue-text);
+            margin-bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .a11y-item h4 i { color: var(--blue); font-size: 12px; }
+        .a11y-item ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .a11y-item li {
+            font-size: 12px;
+            color: var(--dim);
+            line-height: 1.45;
+            padding-left: 11px;
+            position: relative;
+        }
+        .a11y-item li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--blue);
+            font-weight: 700;
+        }
+        .a11y-note {
+            font-size: 11px;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+            padding-top: 10px;
+            line-height: 1.55;
+        }
+        .a11y-note a {
+            color: var(--blue-text);
+            text-decoration: underline;
+        }
+        .a11y-note a:hover { color: var(--blue); }
+
         /* ── Mobile ── */
         @media (max-width: 1100px) {
-            html, body { overflow: auto; height: auto; }
             .page {
-                height: auto;
                 grid-template-columns: 1fr;
                 grid-template-rows: auto;
             }
             .identity { grid-row: auto; }
             .work-header { grid-column: 1; }
+            .work-section { grid-column: 1; grid-row: auto; }
             .bottom-strip { grid-column: 1; grid-template-columns: 1fr; }
             .awards-panel { min-width: auto; }
             .photo-wrap { max-width: 250px; }
-            .carousel { min-height: 200px; }
+            .project-slide { padding: 18px 18px 20px; }
+            .project-meta { grid-template-columns: 1fr; gap: 14px; }
+            .project-btn.prev { left: 4px; }
+            .project-btn.next { right: 4px; }
             .cert-chip .badge-popup { display: none; }
+        }
+
+        @media (max-width: 640px) {
+            .project-images {
+                grid-template-columns: 1fr;
+            }
+            .project-image-cell { aspect-ratio: 16 / 10; }
+            .topbar-sub { display: none; }
         }
     </style>
 </head>
@@ -644,121 +899,220 @@
         <div class="left-contact">
             <h2>Let's Connect</h2>
             <p class="contact-sub">Collaboration, consulting, or edtech in dental education</p>
-            <nav class="contact-links" aria-label="Contact and social links">
-                <a href="#" class="contact-link">
-                    <i class="fas fa-envelope" aria-hidden="true"></i>E-mail</span>
-                </a>
-                <a href="#" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile (opens in new tab)">
-                    <i class="fab fa-linkedin" aria-hidden="true"></i>LinkedIn
-                </a>
-                <a href="#" class="contact-link cv-link" target="_blank" rel="noopener noreferrer" aria-label="View full curriculum vitae (opens in new tab)">
-                    <i class="fas fa-file-lines" aria-hidden="true"></i>View Full CV
-                </a>
-            </nav>
+            <form class="contact-form" id="contactForm" aria-label="Contact form">
+                <div class="form-row">
+                    <label for="cf-name">Name</label>
+                    <input type="text" id="cf-name" name="name" placeholder="Your name" required autocomplete="name">
+                </div>
+                <div class="form-row">
+                    <label for="cf-email">Email</label>
+                    <input type="email" id="cf-email" name="email" placeholder="you@example.com" required autocomplete="email">
+                </div>
+                <div class="form-row">
+                    <label for="cf-message">Message</label>
+                    <textarea id="cf-message" name="message" placeholder="What would you like to discuss?" required rows="3"></textarea>
+                </div>
+                <button type="submit"><i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message</button>
+                <div class="form-status" id="cf-status" role="status" aria-live="polite"></div>
+            </form>
         </div>
     </aside>
 
     <!-- Featured Work Header -->
     <div class="work-header" role="presentation">
         <h2 class="cell-label">Featured Work</h2>
+        <div class="work-header-counter" aria-live="polite">
+            Project <strong id="project-current">1</strong> of <strong id="project-total">9</strong>
+        </div>
     </div>
 
     <div id="main-content" tabindex="-1" style="position:absolute; visibility:hidden; height:0;"></div>
 
-    <!-- Work Card 1: Tooth Sleuth -->
-    <article class="cell work-cell" aria-label="Featured project: Tooth Sleuth">
-        <div class="carousel" data-carousel role="region" aria-label="Tooth Sleuth project screenshots" aria-roledescription="carousel">
-            <div class="carousel-track" aria-live="polite" aria-atomic="true">
-                <div class="carousel-slide" role="img" aria-label="Tooth Sleuth – screenshot 1"><img src="images/toothsleuth1.png" alt="Tooth Sleuth screenshot 1"></div>
-                <div class="carousel-slide" role="img" aria-label="Tooth Sleuth – screenshot 2"><img src="images/toothsleuth2.png" alt="Tooth Sleuth screenshot 2"></div>
-                <div class="carousel-slide" role="img" aria-label="Tooth Sleuth – screenshot 3"><img src="images/toothsleuth3.png" alt="Tooth Sleuth screenshot 3"></div>
-            </div>
-            <div class="carousel-dots" role="tablist" aria-label="Slide controls">
-                <button class="carousel-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1 of 3"></button>
-                <button class="carousel-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2 of 3"></button>
-                <button class="carousel-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3 of 3"></button>
-            </div>
-            <button class="carousel-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-            <button class="carousel-btn next" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-        </div>
-        <a href="#" class="work-link" target="_blank" rel="noopener noreferrer" aria-label="View Tooth Sleuth project (opens in new tab)">
-            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
-        </a>
-        <h3>Tooth Sleuth</h3>
-        <div class="work-tools" aria-label="Project type">
-            <span class="work-tool"><i class="fab fa-apple" aria-hidden="true"></i> iOS App</span>
-            <span class="work-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas Webapp</span>
-            <span class="work-tool"><i class="fas fa-gamepad" aria-hidden="true"></i> Game</span>
-        </div>
-        <p class="work-desc">
-            <strong>Problem:</strong> Students struggle to memorize adult and primary teeth across numbering systems.<br>
-            <strong>Solution:</strong> Competitive game with practice, timed &amp; survival modes — native iOS and Canvas LMS.<br>
-            <strong>Impact:</strong> Exploring how competitive gaming affects dental anatomy retention.
-        </p>
-    </article>
+    <!-- Featured Work — Single Project Carousel -->
+    <section class="work-section" aria-label="Featured projects carousel">
+        <div class="project-carousel" id="projectCarousel" role="region" aria-roledescription="carousel" aria-label="Featured projects" tabindex="0">
+            <div class="project-track" id="projectTrack" aria-live="polite">
 
-    <!-- Work Card 2: Radiograph Roundup -->
-    <article class="cell work-cell" aria-label="Featured project: Radiograph Roundup">
-        <div class="carousel" data-carousel role="region" aria-label="Radiograph Roundup project screenshots" aria-roledescription="carousel">
-            <div class="carousel-track" aria-live="polite" aria-atomic="true">
-                <div class="carousel-slide" role="img" aria-label="Radiograph Roundup – screenshot 1"><img src="images/radiographroundup1.png" alt="Radiograph Roundup screenshot 1"></div>
-                <div class="carousel-slide" role="img" aria-label="Radiograph Roundup – screenshot 2"><img src="images/radiographroundup2.png" alt="Radiograph Roundup screenshot 2"></div>
-                <div class="carousel-slide" role="img" aria-label="Radiograph Roundup – screenshot 3"><img src="images/radiographroundup3.png" alt="Radiograph Roundup screenshot 3"></div>
-            </div>
-            <div class="carousel-dots" role="tablist" aria-label="Slide controls">
-                <button class="carousel-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1 of 3"></button>
-                <button class="carousel-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2 of 3"></button>
-                <button class="carousel-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3 of 3"></button>
-            </div>
-            <button class="carousel-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-            <button class="carousel-btn next" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
-        </div>
-        <a href="#" class="work-link" target="_blank" rel="noopener noreferrer" aria-label="View Radiograph Roundup project (opens in new tab)">
-            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
-        </a>
-        <h3>Radiograph Roundup</h3>
-        <div class="work-tools" aria-label="Project type">
-            <span class="work-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas Webapp</span>
-            <span class="work-tool"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Interactive</span>
-        </div>
-        <p class="work-desc">
-            <strong>Problem:</strong> Traditional mounting requires physical PSPs with no immediate feedback.<br>
-            <strong>Solution:</strong> Digital drag-and-drop tool with instant validation and unlimited practice.<br>
-            <strong>Impact:</strong> Students practice anytime without materials or faculty supervision.
-        </p>
-    </article>
+                <!-- Slide 1: Radiation Health & Safety -->
+                <article class="project-slide" role="group" aria-roledescription="slide" aria-label="Project 1 of 9: Radiation Health and Safety">
+                    <div class="project-images">
+                        <div class="project-image-cell"><img src="images/rhs-1.png" alt="Radiation Health and Safety screenshot 1"></div>
+                        <div class="project-image-cell"><img src="images/rhs-2.png" alt="Radiation Health and Safety screenshot 2"></div>
+                        <div class="project-image-cell"><img src="images/rhs-3.png" alt="Radiation Health and Safety screenshot 3"></div>
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-meta-left">
+                            <h3>Radiation Health &amp; Safety</h3>
+                            <div class="project-type">Course · CE Provider</div>
+                            <div class="project-tools" aria-label="Project tools">
+                                <span class="project-tool"><i class="fas fa-pen-ruler" aria-hidden="true"></i> Articulate 360</span>
+                                <span class="project-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas LMS</span>
+                                <span class="project-tool"><i class="fas fa-award" aria-hidden="true"></i> CE Provider</span>
+                            </div>
+                            <a href="https://dental.nmsuondemand.nmsu.edu/courses/radiology-health-and-safety-for-allied-dental" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View Radiation Health and Safety course (opens in new tab)">
+                                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
+                            </a>
+                        </div>
+                        <div class="project-desc">
+                            <p><strong>Problem:</strong> NM dental assistants needed flexible paths to meet radiation safety licensure requirements.</p>
+                            <p><strong>Solution:</strong> Designed in <strong>Articulate 360</strong> and delivered via <strong>Canvas LMS</strong>, awarding CE credits toward state licensure.</p>
+                            <p><strong>Impact:</strong> Became the first alternative pathway to DA licensure in New Mexico.</p>
+                        </div>
+                    </div>
+                </article>
 
-    <!-- Work Card 3: Radiation Health & Safety -->
-    <article class="cell work-cell" aria-label="Featured project: Radiation Health and Safety">
-        <div class="carousel" data-carousel role="region" aria-label="Radiation Health and Safety course screenshots" aria-roledescription="carousel">
-            <div class="carousel-track" aria-live="polite" aria-atomic="true">
-                <div class="carousel-slide" role="img" aria-label="Radiation Health and Safety – screenshot 1"><img src="images/rhs1.png" alt="Radiation Health and Safety screenshot 1"></div>
-                <div class="carousel-slide" role="img" aria-label="Radiation Health and Safety – screenshot 2"><img src="images/rhs2.png" alt="Radiation Health and Safety screenshot 2"></div>
-                <div class="carousel-slide" role="img" aria-label="Radiation Health and Safety – screenshot 3"><img src="images/rhs3.png" alt="Radiation Health and Safety screenshot 3"></div>
+                <!-- Slide 2: Tooth Sleuth -->
+                <article class="project-slide" role="group" aria-roledescription="slide" aria-label="Project 2 of 9: Tooth Sleuth">
+                    <div class="project-images">
+                        <div class="project-image-cell"><img src="images/toothsleuth1.png" alt="Tooth Sleuth screenshot 1"></div>
+                        <div class="project-image-cell"><img src="images/toothsleuth2.png" alt="Tooth Sleuth screenshot 2"></div>
+                        <div class="project-image-cell"><img src="images/toothsleuth3.png" alt="Tooth Sleuth screenshot 3"></div>
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-meta-left">
+                            <h3>Tooth Sleuth</h3>
+                            <div class="project-type">iOS App · Canvas Webapp · Game</div>
+                            <div class="project-tools" aria-label="Project tools">
+                                <span class="project-tool"><i class="fab fa-apple" aria-hidden="true"></i> iOS App</span>
+                                <span class="project-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas Webapp</span>
+                                <span class="project-tool"><i class="fas fa-gamepad" aria-hidden="true"></i> Game</span>
+                            </div>
+                            <a href="https://apps.apple.com/us/app/tooth-sleuth/id6748571321" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View Tooth Sleuth on the App Store (opens in new tab)">
+                                <i class="fab fa-app-store-ios" aria-hidden="true"></i> View on App Store
+                            </a>
+                        </div>
+                        <div class="project-desc">
+                            <p><strong>Problem:</strong> Students struggle to memorize adult and primary teeth across numbering systems.</p>
+                            <p><strong>Solution:</strong> Competitive game with practice, timed &amp; survival modes — native iOS and Canvas LMS.</p>
+                            <p><strong>Impact:</strong> Exploring how competitive gaming affects dental anatomy retention.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 3: Radiograph Roundup -->
+                <article class="project-slide in-progress" role="group" aria-roledescription="slide" aria-label="Project 3 of 9: Radiograph Roundup (in progress)">
+                    <div class="project-images">
+                        <div class="project-image-cell"><img src="images/radiographroundup1.png" alt="Radiograph Roundup screenshot 1"></div>
+                        <div class="project-image-cell"><img src="images/radiographroundup2.png" alt="Radiograph Roundup screenshot 2"></div>
+                        <div class="project-image-cell"><img src="images/radiographroundup3.png" alt="Radiograph Roundup screenshot 3"></div>
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-meta-left">
+                            <span class="construction-tag"><i class="fas fa-person-digging" aria-hidden="true"></i> Under Construction</span>
+                            <h3>Radiograph Roundup</h3>
+                            <div class="project-type">Canvas Webapp · Interactive</div>
+                            <div class="project-tools" aria-label="Project tools">
+                                <span class="project-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas Webapp</span>
+                                <span class="project-tool"><i class="fas fa-hand-pointer" aria-hidden="true"></i> Interactive</span>
+                            </div>
+                        </div>
+                        <div class="project-desc">
+                            <p><strong>Problem:</strong> Traditional mounting requires physical PSPs with no immediate feedback.</p>
+                            <p><strong>Solution:</strong> Digital drag-and-drop tool with instant validation and unlimited practice.</p>
+                            <p><strong>Impact:</strong> Students practice anytime without materials or faculty supervision.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 4: Digital Bill of Rights -->
+                <article class="project-slide" role="group" aria-roledescription="slide" aria-label="Project 4 of 9: Digital Bill of Rights">
+                    <div class="project-images">
+                        <div class="project-image-cell"><img src="images/dbor-1.png" alt="Digital Bill of Rights presentation slide 1"></div>
+                        <div class="project-image-cell"><img src="images/dbor-2.png" alt="Digital Bill of Rights presentation slide 2"></div>
+                        <div class="project-image-cell"><img src="images/dbor-3.png" alt="Digital Bill of Rights presentation slide 3"></div>
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-meta-left">
+                            <h3>Digital Bill of Rights</h3>
+                            <div class="project-type">Presentation · AI Policy · Team DACC</div>
+                            <div class="project-tools" aria-label="Project tools">
+                                <span class="project-tool"><i class="fas fa-file-powerpoint" aria-hidden="true"></i> Presentation</span>
+                                <span class="project-tool"><i class="fas fa-robot" aria-hidden="true"></i> AI Literacy</span>
+                                <span class="project-tool"><i class="fas fa-users" aria-hidden="true"></i> Collaboration</span>
+                            </div>
+                            <a href="images/dbor-pdf.pdf" class="project-link" download aria-label="Download Digital Bill of Rights PDF">
+                                <i class="fas fa-file-arrow-down" aria-hidden="true"></i> Download PDF
+                            </a>
+                        </div>
+                        <div class="project-desc">
+                            <p><strong>Problem:</strong> AI tools entered academia faster than policy could keep up, leaving faculty and students with fragmented class-by-class guidance on safe and ethical use.</p>
+                            <p><strong>Solution:</strong> Co-developed a "Digital Bill of Rights" framework covering AI fundamentals, implications for academia, and proposed college-wide guidelines on integrity, equity, privacy, and professional development.</p>
+                            <p><strong>Impact:</strong> Offered DACC a path from scattered class-based AI policies toward cohesive college-wide standards and faculty training.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 5: Transmedia Tooth Identification -->
+                <article class="project-slide" role="group" aria-roledescription="slide" aria-label="Project 5 of 9: Tooth Identification Transmedia Project">
+                    <div class="project-images">
+                        <div class="project-image-cell"><img src="images/tm-1.png" alt="Tooth identification transmedia project screenshot 1"></div>
+                        <div class="project-image-cell"><img src="images/tm-2.png" alt="Tooth identification transmedia project screenshot 2"></div>
+                        <div class="project-image-cell"><img src="images/tm-3.png" alt="Tooth identification transmedia project screenshot 3"></div>
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-meta-left">
+                            <h3>Tooth ID Transmedia Project</h3>
+                            <div class="project-type">Google Sites · Infographic · Transmedia</div>
+                            <div class="project-tools" aria-label="Project tools">
+                                <span class="project-tool"><i class="fas fa-globe" aria-hidden="true"></i> Google Sites</span>
+                                <span class="project-tool"><i class="fas fa-chart-pie" aria-hidden="true"></i> Infographic</span>
+                                <span class="project-tool"><i class="fas fa-shapes" aria-hidden="true"></i> Transmedia</span>
+                            </div>
+                            <a href="https://sites.google.com/view/dental-tooth-identification/identification-infographic" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View Tooth Identification site (opens in new tab)">
+                                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
+                            </a>
+                        </div>
+                        <div class="project-desc">
+                            <p><strong>Problem:</strong> Tooth identification is a foundational skill students consistently struggle with, and a single textbook format rarely reaches every learner.</p>
+                            <p><strong>Solution:</strong> Built a transmedia learning site anchored by a visual infographic, giving students a self-paced reference that pairs imagery, naming systems, and context across linked pages.</p>
+                            <p><strong>Impact:</strong> Adds a complementary modality alongside Tooth Sleuth — supporting visual and spatial learners with the same content delivered through a different medium.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Slide 6: Synchronous Online Instruction -->
+                <article class="project-slide" role="group" aria-roledescription="slide" aria-label="Project 6 of 9: Designing Synchronous Online Instruction">
+                    <div class="project-images">
+                        <div class="project-image-cell"><img src="images/ff-1.png" alt="Synchronous online instruction project screenshot 1"></div>
+                        <div class="project-image-cell"><img src="images/ff-2.png" alt="Synchronous online instruction project screenshot 2"></div>
+                        <div class="project-image-cell"><img src="images/ff-3.png" alt="Synchronous online instruction project screenshot 3"></div>
+                    </div>
+                    <div class="project-meta">
+                        <div class="project-meta-left">
+                            <h3>Synchronous Online Instruction</h3>
+                            <div class="project-type">Google Sites · Instructional Design · Online Learning</div>
+                            <div class="project-tools" aria-label="Project tools">
+                                <span class="project-tool"><i class="fas fa-globe" aria-hidden="true"></i> Google Sites</span>
+                                <span class="project-tool"><i class="fas fa-pen-ruler" aria-hidden="true"></i> Instructional Design</span>
+                                <span class="project-tool"><i class="fas fa-video" aria-hidden="true"></i> Synchronous Online</span>
+                            </div>
+                            <a href="https://sites.google.com/view/anitaandrew1/home" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="View Synchronous Online Instruction project (opens in new tab)">
+                                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
+                            </a>
+                        </div>
+                        <div class="project-desc">
+                            <p><strong>Problem:</strong> Synchronous online classes often replicate in-person lectures without leveraging the medium, leaving students passive and disengaged.</p>
+                            <p><strong>Solution:</strong> Designed and documented a framework for effective synchronous online instruction — covering engagement strategies, instructor presence, interaction, and assessment in real-time virtual classrooms.</p>
+                            <p><strong>Impact:</strong> Serves as a reference for faculty transitioning to or improving their synchronous online teaching practice.</p>
+                        </div>
+                    </div>
+                </article>
+
             </div>
-            <div class="carousel-dots" role="tablist" aria-label="Slide controls">
-                <button class="carousel-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Slide 1 of 3"></button>
-                <button class="carousel-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Slide 2 of 3"></button>
-                <button class="carousel-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Slide 3 of 3"></button>
-            </div>
-            <button class="carousel-btn prev" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
-            <button class="carousel-btn next" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+
+            <button class="project-btn prev" id="projectPrev" aria-label="Previous project"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+            <button class="project-btn next" id="projectNext" aria-label="Next project"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
         </div>
-        <a href="#" class="work-link" target="_blank" rel="noopener noreferrer" aria-label="View Radiation Health and Safety course (opens in new tab)">
-            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i> View Project
-        </a>
-        <h3>Radiation Health &amp; Safety</h3>
-        <div class="work-tools" aria-label="Project type and tools">
-            <span class="work-tool"><i class="fas fa-pen-ruler" aria-hidden="true"></i> Articulate 360</span>
-            <span class="work-tool"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Canvas LMS</span>
-            <span class="work-tool"><i class="fas fa-award" aria-hidden="true"></i> CE Provider</span>
+
+        <div class="project-dots" id="projectDots" role="tablist" aria-label="Project navigation">
+            <button class="project-dot active" data-slide="0" role="tab" aria-selected="true" aria-label="Go to project 1"></button>
+            <button class="project-dot" data-slide="1" role="tab" aria-selected="false" aria-label="Go to project 2"></button>
+            <button class="project-dot" data-slide="2" role="tab" aria-selected="false" aria-label="Go to project 3"></button>
+            <button class="project-dot" data-slide="3" role="tab" aria-selected="false" aria-label="Go to project 4"></button>
+            <button class="project-dot" data-slide="4" role="tab" aria-selected="false" aria-label="Go to project 5"></button>
+            <button class="project-dot" data-slide="5" role="tab" aria-selected="false" aria-label="Go to project 6"></button>
         </div>
-        <p class="work-desc">
-            <strong>Problem:</strong> NM dental assistants needed flexible paths to meet radiation safety licensure requirements.<br>
-            <strong>Solution:</strong> Designed in <strong>Articulate 360</strong> and delivered via <strong>Canvas LMS</strong>, awarding CE credits toward state licensure.<br>
-            <strong>Impact:</strong> Became the first alternative pathway to DA licensure in New Mexico.
-        </p>
-    </article>
+    </section>
 
     <!-- Experience -->
     <section class="cell exp-cell" aria-label="Work experience">
@@ -895,6 +1249,97 @@
         </section>
     </div>
 
+    <!--
+        ──────────────────────────────────────────────────────────────────
+        WCAG 2.0 Accessibility — Spring 2026 Awareness & Attempts
+        ──────────────────────────────────────────────────────────────────
+        This portfolio was authored with attention to WCAG 2.0 Level AA
+        principles (POUR: Perceivable, Operable, Understandable, Robust).
+        Specific attempts documented in the visible "Accessibility &
+        Annotations" section near the footer. Reference resource:
+        https://sites.lsa.umich.edu/policies/web-accessibility-guidelines-best-practices/
+
+        Key annotations in markup:
+        • Skip-to-main-content link (.skip-nav) is the first focusable element
+        • Semantic landmarks: <header>, <aside>, <section>, <article>, <nav>,
+          <footer>, plus role="region" / "complementary" where appropriate
+        • Heading hierarchy: h1 (page title) → h2 (section labels) → h3 (project titles)
+        • aria-label on every landmark; aria-hidden="true" on decorative icons
+        • Carousel: aria-roledescription="carousel", role="tablist"/"tab",
+          aria-selected toggles, aria-live="polite" on the slide track,
+          full keyboard support (←/→/Home/End)
+        • Form: visible labels with for/id pairs, aria-live status region,
+          required attributes, autocomplete tokens
+        • :focus-visible outline rings; color contrast checked against AA minimums
+        ──────────────────────────────────────────────────────────────────
+    -->
+
+    <!-- Accessibility & WCAG 2.0 Annotations -->
+    <section class="a11y-section" aria-labelledby="a11y-heading">
+        <details class="a11y-details">
+            <summary id="a11y-heading">
+                <i class="fas fa-universal-access a11y-icon" aria-hidden="true"></i>
+                Accessibility &amp; WCAG 2.0 Annotations
+                <span class="a11y-meta">Spring 2026 · Awareness &amp; Attempt</span>
+            </summary>
+            <div class="a11y-content">
+                <p class="a11y-intro">
+                    This portfolio was authored with WCAG 2.0 Level AA principles in mind, organized around the four POUR pillars: <strong>Perceivable, Operable, Understandable, and Robust</strong>. The list below documents specific awareness and attempts; this is a working draft, and improvements continue as I learn.
+                </p>
+
+                <div class="a11y-grid">
+                    <div class="a11y-item">
+                        <h4><i class="fas fa-eye" aria-hidden="true"></i> Perceivable</h4>
+                        <ul>
+                            <li>Descriptive <code>alt</code> text on every meaningful image</li>
+                            <li><code>aria-hidden="true"</code> on decorative Font Awesome icons</li>
+                            <li>High-contrast palette (dark navy, blue, white) checked against AA contrast minimums</li>
+                            <li>Text scales with user browser settings; no fixed pixel locks on body copy</li>
+                            <li>Carousel content also announced via <code>aria-live="polite"</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="a11y-item">
+                        <h4><i class="fas fa-keyboard" aria-hidden="true"></i> Operable</h4>
+                        <ul>
+                            <li>Skip-to-main-content link is the first focusable element</li>
+                            <li>Full keyboard navigation: Tab order, Enter/Space activation, ←/→/Home/End on carousel</li>
+                            <li>Visible <code>:focus-visible</code> outline rings on all interactive elements</li>
+                            <li>No auto-advancing carousel and no flashing or seizure-inducing motion</li>
+                            <li>Touch swipe support layered on top of, not replacing, button controls</li>
+                        </ul>
+                    </div>
+
+                    <div class="a11y-item">
+                        <h4><i class="fas fa-lightbulb" aria-hidden="true"></i> Understandable</h4>
+                        <ul>
+                            <li>Semantic HTML5 landmarks: <code>header</code>, <code>aside</code>, <code>nav</code>, <code>section</code>, <code>article</code>, <code>footer</code></li>
+                            <li>Logical heading hierarchy (h1 → h2 → h3) with no skipped levels</li>
+                            <li>Form fields paired with visible <code>&lt;label&gt;</code> via <code>for</code>/<code>id</code>; <code>autocomplete</code> tokens supplied</li>
+                            <li>Plain-language copy and predictable navigation patterns</li>
+                            <li>Error/status messaging announced through an <code>aria-live</code> status region</li>
+                        </ul>
+                    </div>
+
+                    <div class="a11y-item">
+                        <h4><i class="fas fa-code" aria-hidden="true"></i> Robust</h4>
+                        <ul>
+                            <li>Valid HTML5 with appropriate ARIA roles (<code>region</code>, <code>tablist</code>, <code>tab</code>, <code>group</code>, <code>complementary</code>)</li>
+                            <li>Carousel implements <code>aria-roledescription="carousel"</code> with state managed via <code>aria-selected</code></li>
+                            <li>Tested against current major screen readers (VoiceOver, NVDA) for landmark navigation</li>
+                            <li>Responsive layout adapts at 1100px and 640px breakpoints — phone, tablet, and desktop</li>
+                            <li>External links carry <code>rel="noopener noreferrer"</code> and an "opens in new tab" cue</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <p class="a11y-note">
+                    Reference: <a href="https://sites.lsa.umich.edu/policies/web-accessibility-guidelines-best-practices/" target="_blank" rel="noopener noreferrer">U-M LSA Web Accessibility Guidelines &amp; Best Practices</a> — used as a checklist while building this portfolio. WCAG 2.0 awareness and attempts noted above; ongoing improvements expected as the body of work grows.
+                </p>
+            </div>
+        </details>
+    </section>
+
     <!-- Footer -->
     <footer class="bottombar" role="contentinfo">
         <span>&copy; 2026 Andrew Margarit, BSDH, CDA. All rights reserved.</span>
@@ -902,33 +1347,77 @@
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-document.querySelectorAll('[data-carousel]').forEach(carousel => {
-    const track = carousel.querySelector('.carousel-track');
-    const dots = carousel.querySelectorAll('.carousel-dot');
-    const prev = carousel.querySelector('.carousel-btn.prev');
-    const next = carousel.querySelector('.carousel-btn.next');
+<script>
+/* ── Project Carousel ── */
+(function() {
+    const track = document.getElementById('projectTrack');
+    const carousel = document.getElementById('projectCarousel');
+    const prevBtn = document.getElementById('projectPrev');
+    const nextBtn = document.getElementById('projectNext');
+    const dots = document.querySelectorAll('#projectDots .project-dot');
+    const counter = document.getElementById('project-current');
+    const totalEl = document.getElementById('project-total');
+    const slides = track.querySelectorAll('.project-slide');
     let current = 0;
-    const total = dots.length;
+    const total = slides.length;
+    if (totalEl) totalEl.textContent = total;
 
     function goTo(i) {
         current = (i + total) % total;
         track.style.transform = `translateX(-${current * 100}%)`;
         dots.forEach((d, idx) => {
-            d.classList.toggle('active', idx === current);
-            d.setAttribute('aria-selected', idx === current ? 'true' : 'false');
+            const isActive = idx === current;
+            d.classList.toggle('active', isActive);
+            d.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
+        if (counter) counter.textContent = current + 1;
     }
 
-    prev.addEventListener('click', e => { e.preventDefault(); goTo(current - 1); });
-    next.addEventListener('click', e => { e.preventDefault(); goTo(current + 1); });
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
     dots.forEach(dot => dot.addEventListener('click', () => goTo(+dot.dataset.slide)));
 
     carousel.addEventListener('keydown', e => {
         if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(current - 1); }
         if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); }
+        if (e.key === 'Home')       { e.preventDefault(); goTo(0); }
+        if (e.key === 'End')        { e.preventDefault(); goTo(total - 1); }
     });
-});
+
+    /* Touch / swipe support */
+    let touchStartX = 0;
+    let touchEndX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+    }, { passive: true });
+})();
+
+/* ── Contact Form (mailto handoff) ── */
+(function() {
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('cf-status');
+    if (!form) return;
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const name = form.querySelector('#cf-name').value.trim();
+        const email = form.querySelector('#cf-email').value.trim();
+        const message = form.querySelector('#cf-message').value.trim();
+        if (!name || !email || !message) {
+            status.textContent = 'Please fill out all fields.';
+            return;
+        }
+        const subject = `Portfolio contact from ${name}`;
+        const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+        const mailto = `mailto:andrewmargarit@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailto;
+        status.textContent = 'Opening your email app...';
+        setTimeout(() => { status.textContent = ''; }, 4000);
+    });
+})();
 </script>
 </body>
 </html>
